@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AegisOps — Real-Time Disaster Routing & Weather</title>
+<meta name="description" content="AegisOps: live GPS tracking, nearest hospital/safe-zone routing, and real-time weather alerts for disaster response.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Leaflet Map CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet Routing Machine CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<!-- App styles -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="gov-ribbon" aria-hidden="true"></div>
+<div class="a11y-bar">
+  <span class="a11y-label">Accessibility:</span>
+  <button type="button" id="fontDecreaseBtn" aria-label="Decrease text size">A-</button>
+  <button type="button" id="fontResetBtn" aria-label="Reset text size">A</button>
+  <button type="button" id="fontIncreaseBtn" aria-label="Increase text size">A+</button>
+  <span class="a11y-sep"></span>
+  <button type="button" id="contrastToggleBtn" aria-pressed="false">High Contrast</button>
+</div>
+
+<header>
+  <div class="brand">
+    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path>
+    </svg>
+    <div class="brand-text">
+      <h1>AegisOps Dashboard</h1>
+      <p>Real-Time Disaster Response &amp; Ground Truth Intelligence</p>
+    </div>
+  </div>
+  <div class="nav-tabs" role="tablist" aria-label="Dashboard views">
+    <button class="nav-tab" id="tab-ops" role="tab" aria-selected="true" aria-controls="opsView">Tactical Map Ops</button>
+    <button class="nav-tab" id="tab-weather" role="tab" aria-selected="false" aria-controls="weatherView">Weather &amp; Geo-Alerts</button>
+  </div>
+</header>
+
+<main id="main-content">
+  <!-- ===================== GLOBAL LOCATION CONTROLS ===================== -->
+  <div class="card" style="margin-bottom: 24px;">
+    <h2>Global Positioning</h2>
+    <div class="locate-row">
+      <button class="btn" id="gpsBtn" type="button">Start Live GPS Tracking</button>
+      <label for="manualLoc" class="visually-hidden">Target sector, city, or coordinates</label>
+      <input type="text" id="manualLoc" placeholder="Enter target sector, city, or coordinates...">
+      <button class="btn secondary" id="searchBtn" type="button">Establish Fix</button>
+    </div>
+    <div id="locStatus" role="status" aria-live="polite">Awaiting geographic lock to retrieve local intelligence and routing.</div>
+  </div>
+
+  <!-- ===================== VIEW 1: TACTICAL MAP ===================== -->
+  <div id="opsView" class="view-section active" role="tabpanel" aria-labelledby="tab-ops">
+    <div class="layout">
+      <div>
+        <div class="card map-card">
+          <h2>Tactical Map &amp; Navigation <span class="badge" id="liveClock">Standby</span></h2>
+          <div id="map" role="img" aria-label="Interactive tactical map showing your location, nearby medical facilities, and safe zones"></div>
+          <div class="legend">
+            <span><i class="dotsw" style="background:var(--blue)"></i>Your Location</span>
+            <span><i class="dotsw" style="background:var(--red)"></i>Hospital/Clinic</span>
+            <span><i class="dotsw" style="background:var(--green)"></i>Safe zone</span>
+            <span><i class="linesw" style="background:var(--blue)"></i>Active Navigation Route</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side column matches the map's height exactly and scrolls as one
+           unit, instead of three independently-sized cards with their own
+           nested scrollbars. -->
+      <div class="ops-side-col">
+        <div class="card">
+          <h2>Dispatch Numbers <span class="badge">Local Jurisdiction</span></h2>
+          <div id="areaLabel">Awaiting geographic lock...</div>
+          <div class="num-grid" id="numGrid"></div>
+        </div>
+        <div class="card">
+          <h2>All Medical Facilities (Govt &amp; Private) <span class="badge" id="hospBadge">Standby</span></h2>
+          <div id="hospList"><div class="empty-note">Awaiting geographic lock...</div></div>
+        </div>
+        <div class="card">
+          <h2>Designated Safe Zones <span class="badge" id="safeBadge">Standby</span></h2>
+          <div id="safeList"><div class="empty-note">Awaiting geographic lock...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ Preparedness & news content lives here directly on
+         Tactical Map Ops — there is no separate tab for it. ============ -->
+
+    <div class="card guides-card">
+      <h2>Do's &amp; Don'ts <span class="badge">By disaster type</span></h2>
+      <div class="carousel">
+        <button type="button" class="carousel-btn prev" id="guidesPrev" aria-label="Show previous disaster guides">‹</button>
+        <div class="carousel-track-wrap">
+          <div class="carousel-track" id="guidesTrack"></div>
+        </div>
+        <button type="button" class="carousel-btn next" id="guidesNext" aria-label="Show more disaster guides">›</button>
+      </div>
+    </div>
+
+    <div class="activity-band">
+      <h2>Our Activity</h2>
+      <div class="activity-grid" id="activityGrid"></div>
+    </div>
+
+    <div class="card videos-card">
+      <h2>Survival Videos <span class="badge">How to survive real disasters</span></h2>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+
+    <div class="card news-card">
+      <h2>Latest Disaster News <span class="badge" id="newsBadge">Loading…</span></h2>
+      <div class="news-subhead">
+        Live, currently-open events worldwide via <a href="https://www.gdacs.org/" target="_blank" rel="noopener noreferrer">GDACS</a> (UN/European Commission), spanning earthquakes, cyclones, floods, volcanoes, droughts and wildfires — automatically falls back to NASA EONET if unreachable.
+        <button type="button" class="btn secondary" id="newsRefreshBtn" style="padding:6px 12px;font-size:12.5px;">Refresh</button>
+      </div>
+      <div class="news-grid" id="newsGrid"><div class="empty-note"><span class="spinner" aria-hidden="true"></span>Loading latest global disaster events...</div></div>
+    </div>
+  </div>
+
+  <!-- ===================== VIEW 2: WEATHER & ALERTS ===================== -->
+  <div id="weatherView" class="view-section" role="tabpanel" aria-labelledby="tab-weather">
+    <div id="geoAlertBanner" class="weather-alert" role="alert">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      <span id="geoAlertText">Severe Weather Warning Detected for this Sector</span>
+    </div>
+
+    <div class="weather-hero">
+      <div class="hero-left">
+        <h2 id="w-city">Sector Location</h2>
+        <div class="temp-main">
+          <span class="icon" id="w-icon" aria-hidden="true"></span>
+          <span id="w-temp">--°C</span>
+        </div>
+        <div class="condition" id="w-cond">Awaiting data stream...</div>
+        <div class="updated" id="w-updated"></div>
+
+        <div class="w-stats-grid">
+          <div class="w-stat"><div class="label">Feels Like</div><div class="val" id="w-feels">--°C</div></div>
+          <div class="w-stat"><div class="label">Wind Speed</div><div class="val" id="w-wind">-- km/h</div></div>
+          <div class="w-stat"><div class="label">Humidity</div><div class="val" id="w-hum">--%</div></div>
+          <div class="w-stat"><div class="label">Precipitation</div><div class="val" id="w-precip">-- mm</div></div>
+        </div>
+      </div>
+
+      <!-- Interactive Weather Radar Frame -->
+      <div class="hero-right">
+        <iframe id="weatherRadar" title="Live weather radar" width="100%" height="100%" src="about:blank" frameborder="0" style="position:absolute; top:0; left:0;"></iframe>
+      </div>
+    </div>
+
+    <div class="forecast-section">
+      <h3>Hourly Outlook (Next 24h)</h3>
+      <div class="hourly-scroll" id="hourlyList">
+        <div class="empty-note">Awaiting geographic lock...</div>
+      </div>
+    </div>
+
+    <div class="forecast-section">
+      <h3>7-Day Extended Forecast</h3>
+      <div class="daily-list" id="dailyList">
+        <div class="empty-note">Awaiting geographic lock...</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  AegisOps integrates OpenStreetMap data, OSRM routing, and Open-Meteo Environmental APIs. Always defer to official dispatch during active crisis events.
+</footer>
+
+<!-- Leaflet Map JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Leaflet Routing Machine JS -->
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<!-- App logic (ES module, split across js/*.js — see README.md) -->
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
