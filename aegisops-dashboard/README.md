@@ -1,4 +1,4 @@
-# AegisOps Dashboard
+#OrbitNimbus – Disaster Response & Situational Awareness Dashboard
 
 Real-time disaster-response dashboard: live GPS tracking, nearest hospital/safe-zone
 routing, local emergency numbers, and a live weather + severe-alert panel.
@@ -10,7 +10,7 @@ and quality-of-life enhancements layered on top.
 ## Project structure
 
 ```
-aegisops-dashboard/
+OrbitNimbus-dashboard/
 ├── index.html            Markup only — no inline <style> or business logic
 ├── css/
 │   └── style.css         All styling, extracted from the original <style> block
