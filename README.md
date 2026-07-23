@@ -10,7 +10,7 @@ and quality-of-life enhancements layered on top.
 ## Project structure
 
 ```
-  aegisops-dashboard/
+  Aegisops-dashboard/
 ├── index.html            Markup only — no inline <style> or business logic
 ├── css/
 │   └── style.css         All styling, extracted from the original <style> block
