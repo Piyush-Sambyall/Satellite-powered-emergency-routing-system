@@ -159,9 +159,7 @@ Any static file server works (`npx serve`, VS Code "Live Server", etc.).
   shown "as per the location and the country" rather than just a street
   name with no broader context. The two offline fallback facilities got the
   same treatment (now tagged with city/state/country, not just a street).
-
-## Cleanup pass: removed the duplicate tab, fixed layout, autoplay, no emoji
-
+  
 - **Removed the separate "Preparedness & News" tab.** Its content (Do's &
   Don'ts, Our Activity, Survival Videos, Latest Disaster News) already also
   lived on "Tactical Map Ops" from the previous pass, so the standalone tab
@@ -182,12 +180,6 @@ Any static file server works (`npx serve`, VS Code "Live Server", etc.).
   Don'ts carousel now auto-advances** every 4.5s, looping back to the start,
   pausing while a pointer or keyboard focus is on it, and skipping autoplay
   entirely if the browser reports `prefers-reduced-motion`.
-- **No more emoji anywhere in the app.** The disaster-guide card icons, the
-  Latest Disaster News category badges, and the current/hourly/daily weather
-  condition icons were all emoji before; they're now either dropped (the
-  guide cards already show a real photo, so the icon was redundant) or
-  replaced with a small inline-SVG icon set in `weatherPanel.js` drawn in
-  the same stroke style as the rest of the app.
 - **Clearer images.** The Do's & Don'ts photos now request `?width=800` from
   Wikimedia (was 500), and the Survival Video thumbnails use YouTube's
   `sddefault.jpg` (640×480) instead of `hqdefault.jpg` (480×360), falling
@@ -229,7 +221,7 @@ about it). The map-dependent helpers (`updateUserMarker`, `findNearby`,
 itself couldn't load — you'll just be missing the visual map, not the whole
 app.
 
-## Re-theme: government-portal look
+## Re-theme: portal look
 
 The dark "tactical ops" theme was replaced with a light, formal palette more
 in line with an official government portal (navy/white/gold, similar to the
