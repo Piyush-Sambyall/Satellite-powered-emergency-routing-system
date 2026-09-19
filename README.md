@@ -13,11 +13,11 @@ Global Disaster Intelligence: Live disaster feeds aggregated from GDACS (Global 
 Weather & Geo-Alerts: Integrated live weather radar, hourly forecasts, and localized warnings.
 Preparedness Center: Automated Do's & Don'ts carousels with verified Wikimedia imagery, and a privacy-enhanced survival video grid.
 Accessibility First: GIGW-compliant portal theme (navy/white/gold) featuring an active accessibility toolbar (High Contrast mode, text scaling), ARIA labels, and prefers-reduced-motion support.
+
 2. Project Structure
 
 The project is built entirely on native ES Modules — requiring no bundler — and is engineered for rapid deployment on any static file server.
 
-text
 Aegisops-dashboard/
 ├── index.html                  # Clean markup only — no inline <style> or business logic
 ├── css/
@@ -37,6 +37,8 @@ Aegisops-dashboard/
 │   ├── disasterNews.js           # Latest Disaster News, live via GDACS & NASA EONET
 │   └── main.js                   # Entry point — wires up DOM listeners, boots map on load
 └── README.md
+└── README.md
+
 3. Prerequisites & Installation
 
 Because it uses ES modules (<script type="module">), opening index.html directly via file:// will be blocked by the browser's CORS rules. Serve it over HTTP instead.
