@@ -18,7 +18,7 @@ Accessibility First: GIGW-compliant portal theme (navy/white/gold) featuring an 
 
 The project is built entirely on native ES Modules — requiring no bundler — and is engineered for rapid deployment on any static file server.
 
-```text
+
 Aegisops-dashboard/
 ├── index.html             # Clean markup only — no inline <style> or business logic
 ├── css/
