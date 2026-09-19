@@ -18,27 +18,26 @@ Accessibility First: GIGW-compliant portal theme (navy/white/gold) featuring an 
 
 The project is built entirely on native ES Modules — requiring no bundler — and is engineered for rapid deployment on any static file server.
 
+```text
 Aegisops-dashboard/
-├── index.html                  # Clean markup only — no inline <style> or business logic
+├── index.html             # Clean markup only — no inline <style> or business logic
 ├── css/
-│   └── style.css               # All styling, centralized theming and responsive design
+│   └── style.css          # All styling, centralized theming and responsive design
 ├── js/
-│   ├── config.js                # Static data: offline fallbacks, emergency numbers, APIs, guides
-│   ├── utils.js                 # Pure helpers: haversine, bearing, debounce, HTML-escaping
-│   ├── api.js                   # All external network calls — no DOM access, fails soft
-│   ├── state.js                 # Single shared mutable state object (map, layers, GPS watch)
-│   ├── ui.js                    # DOM helpers: status text, tab switching, empty states
-│   ├── mapView.js                # Leaflet map, nearby-facility search, turn-by-turn navigation
-│   ├── weatherPanel.js           # Live radar embed + current/hourly/7-day rendering
-│   ├── locationController.js     # Orchestrates GPS tracking / manual search and syncing
-│   ├── guidesCarousel.js         # Do's & Don'ts slider (8 disaster-type cards)
-│   ├── activityBand.js           # "Our Activity" static info cards
-│   ├── videoGrid.js              # Survival Videos grid, click-to-embed
-│   ├── disasterNews.js           # Latest Disaster News, live via GDACS & NASA EONET
-│   └── main.js                   # Entry point — wires up DOM listeners, boots map on load
+│   ├── config.js          # Static data: offline fallbacks, emergency numbers, APIs, guides
+│   ├── utils.js           # Pure helpers: haversine, bearing, debounce, HTML-escaping
+│   ├── api.js             # All external network calls — no DOM access, fails soft
+│   ├── state.js           # Single shared mutable state object (map, layers, GPS watch)
+│   ├── ui.js              # DOM helpers: status text, tab switching, empty states
+│   ├── mapView.js         # Leaflet map, nearby-facility search, turn-by-turn navigation
+│   ├── weatherPanel.js    # Live radar embed + current/hourly/7-day rendering
+│   ├── locationController.js # Orchestrates GPS tracking / manual search and syncing
+│   ├── guidesCarousel.js  # Do's & Don'ts slider (8 disaster-type cards)
+│   ├── activityBand.js    # "Our Activity" static info cards
+│   ├── videoGrid.js       # Survival Videos grid, click-to-embed
+│   ├── disasterNews.js    # Latest Disaster News, live via GDACS & NASA EONET
+│   └── main.js            # Entry point — wires up DOM listeners, boots map on load
 └── README.md
-└── README.md
-
 3. Prerequisites & Installation
 
 Because it uses ES modules (<script type="module">), opening index.html directly via file:// will be blocked by the browser's CORS rules. Serve it over HTTP instead.
