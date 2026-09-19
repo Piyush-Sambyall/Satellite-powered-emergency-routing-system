@@ -62,31 +62,32 @@ npx serve .
 Access the Dashboard: Open http://localhost:8080 in your web browser.
 
 4.Technical Enhancements & Architecture Updates
-Structural & State Management
+
+# Structural & State Management
 Modular ES6: Inline <script> and <style> tags were stripped out. The logic is now split across focused ES modules instead of one massive block of global functions.
 Shared State: Replaced scattered top-level global variables with a single state object imported wherever needed.
 Event Delegation: Replaced inline onclick attributes with centralized delegated click listeners in main.js, functioning cleanly under strict Content-Security-Policies.
 Error Isolation: main.js now boots each module independently. If a firewall blocks a CDN (like Leaflet), the app degrades gracefully — showing a map error while keeping the rest of the dashboard (News, Weather, Guides) fully functional.
 
-Correctness & Robustness
+# Correctness & Robustness
 Security: All text pulled from third-party APIs (place names, addresses, country codes) is now strictly HTML-escaped before DOM insertion, closing XSS vulnerabilities.
 Concurrency: Nearby-facility fetches and weather fetches now run concurrently (Promise.all), significantly reducing time-to-first-fix.
 Smarter Offline Fallbacks: Searching a remote area with no live OSM data no longer silently falls back to offline cache from a completely different region. The offline cache now only displays if it's within 150km of the searched location; otherwise, it provides a transparent "no data available" warning.
 Resilient Queries: The live Overpass search radius was widened (40km to 60km), timeout raised to 20s, and a third Overpass mirror was added for redundancy.
 
-Data & Intelligence Pipelines
+# Data & Intelligence Pipelines
 GDACS Integration: Disaster news now prioritizes GDACS (Global Disaster Alert and Coordination System) for severity-rated (Green/Orange/Red) reporting across all major disaster types.
 Fallback Strategy: If GDACS is unreachable, disasterNews.js transparently falls back to NASA EONET.
 Layout Fixes: Grid alignment issues caused by excessively long GDACS country strings ballooning card heights were fixed using align-items: start and text clamping.
 Contextual Addresses: Hospital/safe-zone results now include City, State, and Country context inherited from the searched location, rather than just isolated street names.
 
-UX, Accessibility & Theming
+# UX, Accessibility & Theming
 Government Portal Theme: Transitioned from a dark "tactical ops" theme to a light, formal palette (navy/white/gold) reminiscent of official government portals (e.g., NDMA/gov.in). Features a saffron/white/green ribbon detail.
 Accessibility Toolbar: An active toolbar allows users to scale text (A- / A / A+) and toggle a high-contrast (black/yellow) GIGW-compliant mode.
 Screen Readers & Keyboard Nav: Added proper ARIA roles (tab/tabpanel), an aria-live status region, a "skip to main content" link, and visible focus rings (:focus-visible).
 Animation Control: Respects prefers-reduced-motion to disable spinners, pulses, and the auto-advancing carousel for users who request it.
 
-Preparedness & News Hub
+# Preparedness & News Hub
 Do's & Don'ts Carousel: Auto-advancing slider covering 8 disaster types. Uses verified, high-quality public domain/Creative Commons imagery dynamically loaded from Wikimedia Commons.
 Survival Videos: A grid of real "how to survive" videos (Red Cross, NatGeo). Uses YouTube's public thumbnail endpoint and only loads a privacy-enhanced youtube-nocookie.com embed when a user actively clicks play.
 Unified Views: All Preparedness content is rendered twice — once on its dedicated tab, and once embedded at the bottom of the "Tactical Map Ops" tab — powered by parameterized rendering so APIs are only hit once.
