@@ -1,8 +1,8 @@
-# 🚨 Aegisops – Disaster Response & Situational Awareness Dashboard
+# Aegisops – Disaster Response & Situational Awareness Dashboard
 
 ![Language](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) ![Mapping](https://img.shields.io/badge/Mapping-Leaflet_&_OSM-199900?style=flat-square&logo=leaflet&logoColor=white) ![Routing](https://img.shields.io/badge/Routing-OSRM-FF4500?style=flat-square) ![Weather APIs](https://img.shields.io/badge/Weather-Open--Meteo-0078D7?style=flat-square) ![Disaster Data](https://img.shields.io/badge/Data-GDACS_&_NASA-0B3D91?style=flat-square) ![Architecture](https://img.shields.io/badge/Architecture-ES_Modules-FF69B4?style=flat-square)
 
-1. Description
+1.Description
 
 Aegiops is a robust, real-time disaster-response dashboard designed for critical situational awareness. Originating as a monolithic HTML file (~600 lines, everything inline), it has been engineered into a highly maintainable, modular architecture. It provides live GPS tracking, dynamic routing to the nearest hospitals and safe zones, local emergency dispatch numbers, and a comprehensive weather and severe-alert panel.
 
@@ -14,7 +14,7 @@ Weather & Geo-Alerts: Integrated live weather radar, hourly forecasts, and local
 Preparedness Center: Automated Do's & Don'ts carousels with verified Wikimedia imagery, and a privacy-enhanced survival video grid.
 Accessibility First: GIGW-compliant portal theme (navy/white/gold) featuring an active accessibility toolbar (High Contrast mode, text scaling), ARIA labels, and prefers-reduced-motion support.
 
-2. Project Structure
+2.Project Structure
 
 The project is built entirely on native ES Modules — requiring no bundler — and is engineered for rapid deployment on any static file server.
 
@@ -40,7 +40,7 @@ Aegisops-dashboard/
 └── README.md
 ```
 
-3. Prerequisites & Installation
+3.Prerequisites & Installation
 
 Because it uses ES modules (<script type="module">), opening index.html directly via file:// will be blocked by the browser's CORS rules. Serve it over HTTP instead.
 
@@ -61,7 +61,7 @@ npx serve .
 
 Access the Dashboard: Open http://localhost:8080 in your web browser.
 
-4. Technical Enhancements & Architecture Updates
+4.Technical Enhancements & Architecture Updates
 Structural & State Management
 Modular ES6: Inline <script> and <style> tags were stripped out. The logic is now split across focused ES modules instead of one massive block of global functions.
 Shared State: Replaced scattered top-level global variables with a single state object imported wherever needed.
@@ -91,7 +91,7 @@ Do's & Don'ts Carousel: Auto-advancing slider covering 8 disaster types. Uses ve
 Survival Videos: A grid of real "how to survive" videos (Red Cross, NatGeo). Uses YouTube's public thumbnail endpoint and only loads a privacy-enhanced youtube-nocookie.com embed when a user actively clicks play.
 Unified Views: All Preparedness content is rendered twice — once on its dedicated tab, and once embedded at the bottom of the "Tactical Map Ops" tab — powered by parameterized rendering so APIs are only hit once.
 
-5. Notes & Limitations
+5.Notes & Limitations
 Public Endpoints: Uses free, unauthenticated public endpoints (Nominatim, Overpass, OSRM, Open-Meteo, Windy embed). These are rate-limited and not guaranteed 100% uptime during catastrophic regional outages.
 Offline Data Scope: The hardcoded offline fallback data is a small sample centered near Jammu, India, and is not a substitute for real local knowledge during an emergency.
 No Build Step: By design, to keep hosting simple. If the project grows significantly, adding a bundler (Vite/esbuild) and a test runner for utils.js/api.js is recommended.
