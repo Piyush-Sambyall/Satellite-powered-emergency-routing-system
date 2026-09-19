@@ -40,7 +40,6 @@ Aegisops-dashboard/
 └── README.md
 ```
 
-
 3. Prerequisites & Installation
 
 Because it uses ES modules (<script type="module">), opening index.html directly via file:// will be blocked by the browser's CORS rules. Serve it over HTTP instead.
