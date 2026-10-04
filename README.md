@@ -1,4 +1,4 @@
-# Aegisops – Disaster Response & Situational Awareness Dashboard
+# Aegisops - Disaster Response & Situational Awareness Dashboard
 
 ![Language](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) ![Mapping](https://img.shields.io/badge/Mapping-Leaflet_&_OSM-199900?style=flat-square&logo=leaflet&logoColor=white) ![Routing](https://img.shields.io/badge/Routing-OSRM-FF4500?style=flat-square) ![Weather APIs](https://img.shields.io/badge/Weather-Open--Meteo-0078D7?style=flat-square) ![Disaster Data](https://img.shields.io/badge/Data-GDACS_&_NASA-0B3D91?style=flat-square) ![Architecture](https://img.shields.io/badge/Architecture-ES_Modules-FF69B4?style=flat-square)
 
